@@ -8,4 +8,13 @@ COPY ./Gemfile* ./
 RUN bundle install
 COPY ./ ./
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+EXPOSE $APPLICATION_PORT
+
+## Add the wait script to the image
+COPY wait.sh /wait.sh
+RUN chmod +x /wait.sh
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
