@@ -6,9 +6,9 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      WAIT_HOSTS: db_mysql:3306
+      WAIT_HOSTS: db
       APPLICATION_PORT: 3000
-    command: /entrypoint.sh
+    command: ./entrypoint.sh
     depends_on:
       - db
     volumes:
@@ -16,5 +16,8 @@ services:
 
   db:
     image: mysql:8.0.20
-    expose:
-      - 3306
+    ports:
+      - "33061:3306"
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: skydc007+1
