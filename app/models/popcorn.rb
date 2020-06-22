@@ -1,0 +1,2 @@
+class Popcorn < ApplicationRecord
+end
