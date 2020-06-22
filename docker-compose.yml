@@ -1,23 +1,24 @@
 version: '3'
 
 services:
+  db:
+    image: mysql:5.7
+    ports:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: skydc007+1
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: skydc007+1
+
   application:
     build:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      WAIT_HOSTS: db
       APPLICATION_PORT: 3000
+      MYSQL_HOST: db
     command: ./entrypoint.sh
     depends_on:
       - db
     volumes:
       - ./:/opt/PopcornStore
-
-  db:
-    image: mysql:8.0.20
-    ports:
-      - 3306
-    environment:
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: skydc007+1
