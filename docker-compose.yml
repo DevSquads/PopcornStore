@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  application:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+
+    volumes:
+    - ./:/opt/PopcornStore
+
+  db:
+    image: mysql:8.0.20
+    expose:
+      - 3306
