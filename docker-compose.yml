@@ -5,9 +5,14 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-
+    environment:
+      WAIT_HOSTS: db_mysql:3306
+      APPLICATION_PORT: 3000
+    command: /entrypoint.sh
+    depends_on:
+      - db
     volumes:
-    - ./:/opt/PopcornStore
+      - ./:/opt/PopcornStore
 
   db:
     image: mysql:8.0.20
