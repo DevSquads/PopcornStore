@@ -7,7 +7,13 @@ end
 RSpec.describe "/orders", type: :request do
   describe "GET /index" do
     it "renders a successful response" do
-      Order.create!({popcorn_id: Popcorn.new(flavor: 'Caramel', price: 18.81).id, quantity: 3})
+      customer = Customer.create!(email: 'customer@test.com', password: 'somepassword')
+      popcorn = Popcorn.create!(flavor: 'Caramel', price: 18.81)
+      Order.create!({
+                        popcorn_id: popcorn.id,
+                        quantity: 3,
+                        customer_id: customer.id
+                    })
 
       get orders_url, as: :json
 
@@ -18,7 +24,13 @@ RSpec.describe "/orders", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      order = Order.create!({popcorn_id: Popcorn.new(flavor: 'Caramel', price: 18.81).id, quantity: 3})
+      customer = Customer.create!(email: 'customer@test.com', password: 'somepassword')
+      popcorn = Popcorn.create!(flavor: 'Caramel', price: 18.81)
+      order = Order.create!({
+                                popcorn_id: popcorn.id,
+                                quantity: 3,
+                                customer_id: customer.id
+                            })
 
       get order_url(order), as: :json
 
@@ -30,10 +42,11 @@ RSpec.describe "/orders", type: :request do
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Order" do
-        popcorn = Popcorn.new(flavor: 'Caramel', price: 18.81)
+        popcorn = Popcorn.create!(flavor: 'Caramel', price: 18.81)
+        customer = Customer.create!(email: 'customer@test.com', password: 'somepassword')
         expect {
           post orders_url,
-               params: {order: {popcorn_id: popcorn.id, quantity: 3}}, as: :json
+               params: {order: {popcorn_id: popcorn.id, quantity: 3, customer_id: customer.id}}, as: :json
         }.to change(Order, :count).by(1)
       end
     end
@@ -55,7 +68,13 @@ RSpec.describe "/orders", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       it "updates the requested order" do
-        order = Order.create!({popcorn_id: Popcorn.new(flavor: 'Caramel', price: 18.81).id, quantity: 3})
+        customer = Customer.create!(email: 'customer@test.com', password: 'somepassword')
+        popcorn = Popcorn.create!(flavor: 'Caramel', price: 18.81)
+        order = Order.create!({
+                                  popcorn_id: popcorn.id,
+                                  quantity: 3,
+                                  customer_id: customer.id
+                              })
 
         patch order_url(order),
               params: {order: {quantity: 4}}, as: :json
@@ -65,7 +84,13 @@ RSpec.describe "/orders", type: :request do
       end
 
       it "renders a JSON response with the order" do
-        order = Order.create!({popcorn_id: Popcorn.new(flavor: 'Caramel', price: 18.81).id, quantity: 3})
+        customer = Customer.create!(email: 'customer@test.com', password: 'somepassword')
+        popcorn = Popcorn.create!(flavor: 'Caramel', price: 18.81)
+        order = Order.create!({
+                          popcorn_id: popcorn.id,
+                          quantity: 3,
+                          customer_id: customer.id
+                      })
 
         patch order_url(order),
               params: {order: {quantity: 5}}, as: :json
