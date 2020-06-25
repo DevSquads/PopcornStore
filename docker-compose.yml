@@ -18,6 +18,8 @@ services:
       APPLICATION_PORT: 3000
       MYSQL_HOST: db
     command: ./entrypoint.sh
+    ports:
+      - "3000:3000"
     depends_on:
       - db
     volumes:
