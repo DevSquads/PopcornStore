@@ -20,12 +20,6 @@ class OrdersController < ApplicationController
   # POST /orders
   def create
     @order = Order.new(order_params)
-
-    if @order.save
-      render json: @order, status: :created, location: @order
-    else
-      render json: @order.errors, status: :unprocessable_entity
-    end
   end
 
   # PATCH/PUT /orders/1
